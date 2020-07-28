@@ -41,8 +41,9 @@ if __name__ == '__main__':
     tmp = read_csv(args.csv_file, args.ext, args.data_dir)
 
     COUNT = 100
+    extension = ".tfrecord"
     file_number = 0
-    file_name = os.path.join(args.output_dir, args.output_filename + str(file_number) + ".tfrecord")
+    file_name = os.path.join(args.output_dir, args.output_filename + str(file_number) + extension)
     writer = tf.io.TFRecordWriter(file_name)
     print("START WRITING FILE : " + str(file_name))
     for i, (png, label) in enumerate(tmp):
@@ -55,7 +56,7 @@ if __name__ == '__main__':
         if (i+1) % COUNT == 0:
             writer.close()
             file_number += 1
-            file_name = os.path.join(args.output_dir, "png_label" + str(file_number) + ".tfrecord")
+            file_name = os.path.join(args.output_dir, args.output_filename + str(file_number) + extension)
             writer = tf.io.TFRecordWriter(file_name)
             print('Create New TFRecord file : ' + str(file_name))
         writer.write(tf.train.Example(features=tf.train.Features(feature=feature)).SerializeToString())
