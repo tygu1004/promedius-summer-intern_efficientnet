@@ -6,7 +6,7 @@ description = {
     }
 
 
-def load_data(file_path):
+def load_data(file_path, batch_size):
     dataset = tf.data.TFRecordDataset(file_path)
 
     def _parse_function(proto):
@@ -19,5 +19,5 @@ def load_data(file_path):
 
     dataset = dataset.map(_parse_function)
     dataset = dataset.map(_png_to_numpy)
-    dataset = dataset.batch(1)
+    dataset = dataset.batch(batch_size)
     return dataset
